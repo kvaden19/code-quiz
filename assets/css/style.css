@@ -1,0 +1,57 @@
+:root {
+    --primary: #3c40c6;
+    --accent: #00d8d6;
+    --button: #ff3f34;
+  }
+  
+* {
+    box-sizing: border-box;
+    font-family: Helvetica, sans-serif;
+}
+
+h1 {
+    text-align: center;
+    font-size: 50px;
+}
+  
+#buttonContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+#startButton {
+    font-size: 16px;
+    background-color: var(--button);
+}
+
+aside {
+    float: left;
+    background: var(--accent);
+    width: 15%;
+    height: 100px;
+}
+
+aside p {
+    text-align: center;
+    padding: 10px;
+}
+
+main {
+    float: left;
+    margin: 0 40px;
+    border: 3px solid var(--primary);
+    width: 60%;
+    height: 400px;
+    background: var(--primary);
+    color: white;
+}
+
+main p {
+    text-align: center;
+}
+
+
+
+
