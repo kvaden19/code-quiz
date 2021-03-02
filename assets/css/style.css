@@ -2,6 +2,7 @@
     --primary: #3c40c6;
     --accent: #00d8d6;
     --button: #ff3f34;
+    /* Credit: Flat UI Swedish Palette */
   }
   
 * {
@@ -48,8 +49,8 @@ main {
     color: white;
 }
 
-main p {
-    text-align: center;
+#mainCard {
+    display: none;
 }
 
 
