@@ -4,11 +4,14 @@ var pointsCard = document.getElementById("pointsCard");
 var timerCard = document.getElementById("timerCard");
 var mainCard = document.getElementById("mainCard");
 var question = document.getElementById("question");
-var answerOptions = document.getElementsByClassName("answerOptions");
+var answerOptions = document.getElementsByClassName("answerOption");
 var answerBanner = document.getElementById("answerBanner");
 
-// Define the score variable that will track the user's points
+// TODO: Create / load a high score array of objects (initials, values)
+
+// Define the gameplay variables
 var userScore = 0;
+var secondsLeft = 6; // for testing; will increase to 30
 
 startButton.addEventListener("click", gamePlay);
 
@@ -37,20 +40,46 @@ function setup() {
     questionArray.push(q1);
     questionArray.push(q2);
     questionArray.push(q3);
+
+    return questionArray;
 }
 
 function gamePlay() {
-    window.alert("Game start!");
+
+    // Set up the array of questions
+    questionArray = setup();
+
     // Start a 30 second countdown timer
+    var timerInterval = setInterval(function() {
+        secondsLeft--;
+        timerCard.textContent = secondsLeft;
+        if(secondsLeft === 0) {
+          clearInterval(timerInterval);
+        }
+      }, 1000);
+
     // While (timer or question array hasn't reached zero)
-        // Show user a random question
+        // Pull a random question from the array
+
+        // Display the question in the main card with 4 answer buttons
+        mainCard.style.display = "block";
+        answerBanner.style.display = "none";
+        question.textContent = questionArray[2].question;
+        answerOptions[0].textContent = questionArray[2].choice1;
+        answerOptions[1].textContent = questionArray[2].choice2;
+        answerOptions[2].textContent = questionArray[2].choice3;
+        answerOptions[3].textContent = questionArray[2].choice4;
+
+        // Event handlers on all the buttons
         // If correct button is clicked, points++ and show "Correct!"; else take off 10 seconds and show "Sorry!"
 }
 
 function enterHighScore() {
-    // Give user an input for initials and save object (initials, score) in localStorage
+    // Once game is over, give user an input for initials and save object (initials, score) in localStorage
+    // Push onto the existing array and sort the array by score
+    // Format the array to sit in the main card
+    // Add a button + Event Listener to go back to the main game
     return;
 }
 
-// Create high score table -- how would I show a bunch of objects sorted by an attribute?
-//     - Put in a couple dummy scores
+

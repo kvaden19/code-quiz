@@ -1,6 +1,9 @@
 # code-quiz
 
 ## TODOS:
+- Need a button to see High Scores
+- Need to see some instructions at the start
+- Sound effects?!
 
 ### CSS
 - Second cut - make it "clean and polished"
@@ -16,3 +19,12 @@ Estimate:
 * high score table
 * content creation
 * Polish CSS
+
+Original estimate: 10
+
+Time:
+pseudocode - 0.5
+HTML / CSS skeleton - 1.5
+JS - more pseudocode + setup function - 1.0
+JS - work on gamePlay function - 0.75
+
