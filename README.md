@@ -3,7 +3,6 @@
 ## TODOS:
 - Need a button to see High Scores
 - Need to see some instructions at the start
-- Sound effects?!
 
 ### CSS
 - Second cut - make it "clean and polished"
@@ -26,5 +25,5 @@ Time:
 pseudocode - 0.5
 HTML / CSS skeleton - 1.5
 JS - more pseudocode + setup function - 1.0
-JS - work on gamePlay function - 0.75
+JS - work on gamePlay function - 1.5
 
