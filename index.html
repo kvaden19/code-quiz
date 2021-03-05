@@ -11,13 +11,20 @@
         <h1>Code Quiz</h1>
         <div id="buttonContainer">
             <button id="startButton">Start</button>
+            <!-- TODO: Add a High Scores button -->
         </div>
     </header>
     <aside>
         <h2 id="pointsCard"></h2>
     </aside>
     <main>
-        <div id="mainCard">
+        <div id="instructions">
+            <p>Let's test your JavaScript knowledge.</p>
+            <p>How many questions can you answer correctly before time runs out?</p>
+            <p>10 points for each correct answer.</p>
+            <p>Lose 5 seconds for each incorrect answer.</p>
+        </div>
+        <div id="quizCard">
             <p id="question"></p>
             <div><button id="A">A</button><span class="answerOption"></span></div>
             <div><button id="B">B</button><span class="answerOption"></span></div>
@@ -25,7 +32,8 @@
             <div><button id="D">D</button><span class="answerOption"></span></div>
             <p id="answerBanner"></p>
         </div>
-        <div id="highScore"></div>
+        <div id="enterHighScore"></div>
+        <div id="displayHighScore"></div>
     </main>
     <aside>
         <h2 id="timerCard"></h2>

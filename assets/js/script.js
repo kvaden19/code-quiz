@@ -1,8 +1,13 @@
 // Define the DOM variables
 var startButton = document.getElementById("startButton");
+var highScoresButton = 0;
+
 var pointsCard = document.getElementById("pointsCard");
 var timerCard = document.getElementById("timerCard");
-var mainCard = document.getElementById("mainCard");
+
+var instructions = document.getElementById("instructions");
+
+var quizCard = document.getElementById("quizCard");
 var question = document.getElementById("question");
 var answerOptions = document.getElementsByClassName("answerOption");
 var buttonA = document.getElementById("A");
@@ -15,7 +20,7 @@ var answerBanner = document.getElementById("answerBanner");
 
 // Define the gameplay variables
 var userScore = 0;
-var secondsLeft = 60;
+var secondsLeft = 10;
 
 startButton.addEventListener("click", gamePlay);
 
@@ -36,6 +41,7 @@ function setup() {
     questionArray = [];
 
     // Define the questions, answer choices, and correct answers that will be used in the quiz
+    // TODO: Populate this with actual questions
     var q1 = new Question("Here is the 1st question?", "A", "B", "C", "D", "B")
     var q2 = new Question("Here is the 2nd question?", "1", "2", "3", "4", "C")
     var q3 = new Question("Here is the 3rd question?", "red", "blue", "yellow", "green", "A")
@@ -45,16 +51,37 @@ function setup() {
     questionArray.push(q2);
     questionArray.push(q3);
 
+    // Sort Question array into a random order before passing to gamePlay function
+    questionArray.sort(function(a, b){return 0.5 - Math.random()});
     return questionArray;
 }
 
+function getQuestion() {
+    if (questionArray.length === 0 || secondsLeft <= 0) {
+        endGame();
+        return;
+    }
+
+    // Display the question in the main card with 4 answer buttons
+    var q = questionArray.pop();
+    quizCard.style.display = "block";
+    question.textContent = q.question;
+    answerOptions[0].textContent = q.choice1;
+    answerOptions[1].textContent = q.choice2;
+    answerOptions[2].textContent = q.choice3;
+    answerOptions[3].textContent = q.choice4;
+    return q;
+}
+
 function gamePlay() {
+    // TODO: Hide / Disable HS and Start buttons
+    instructions.style.display = "none";
 
     // Set up the array of questions
     questionArray = setup();
 
     timerCard.textContent = secondsLeft;
-    // Start a 30 second countdown timer
+    // Start a 60 second countdown timer
     var timerInterval = setInterval(function() {
         secondsLeft--;
         timerCard.textContent = secondsLeft;
@@ -66,75 +93,75 @@ function gamePlay() {
     // Start userScore at zero
     pointsCard.textContent = userScore;
 
-    // While (timer or question array hasn't reached zero)
-        // Pull a random question from the array
+    q = getQuestion();
 
-        // Display the question in the main card with 4 answer buttons
-        mainCard.style.display = "block";
-        question.textContent = questionArray[2].question;
-        answerOptions[0].textContent = questionArray[2].choice1;
-        answerOptions[1].textContent = questionArray[2].choice2;
-        answerOptions[2].textContent = questionArray[2].choice3;
-        answerOptions[3].textContent = questionArray[2].choice4;
-
-        // If correct button is clicked, add points and show "Correct!"; else take off 10 seconds and show "Sorry!"
-        buttonA.addEventListener("click", function() {
-            if (questionArray[2].answer === "A") {
-                userScore += 10;
-                answerBanner.innerHTML = "Correct!";
-                pointsCard.textContent = userScore;
-            }
-            else {
-                answerBanner.innerHTML = "Sorry!";
-                secondsLeft -= 5;
-                timerCard.textContent = secondsLeft;
-            }
-        });
-        buttonB.addEventListener("click", function() {
-            if (questionArray[2].answer === "B") {
-                userScore += 10;
-                answerBanner.innerHTML = "Correct!";
-                pointsCard.textContent = userScore;
-            }
-            else {
-                answerBanner.innerHTML = "Sorry!";
-                secondsLeft -= 5;
-                timerCard.textContent = secondsLeft;
-            }
-        });
-        buttonC.addEventListener("click", function() {
-            if (questionArray[2].answer === "C") {
-                userScore += 10;
-                answerBanner.innerHTML = "Correct!";
-                pointsCard.textContent = userScore;
-            }
-            else {
-                answerBanner.innerHTML = "Sorry!";
-                secondsLeft -= 5;
-                timerCard.textContent = secondsLeft;
-            }
-        });
-        buttonD.addEventListener("click", function() {
-            if (questionArray[2].answer === "D") {
-                userScore += 10;
-                answerBanner.innerHTML = "Correct!";
-                pointsCard.textContent = userScore;
-            }
-            else {
-                answerBanner.innerHTML = "Sorry!";
-                secondsLeft -= 5;
-                timerCard.textContent = secondsLeft;
-            }
-        });
-
-    // Display game over and trigger enterHighScore()
+    // If correct button is clicked, add points and show "Correct!"; else take off 10 seconds and show "Sorry!"
+    buttonA.addEventListener("click", function() {
+        if (q.answer === "A") {
+            userScore += 10;
+            answerBanner.innerHTML = "Correct!";
+            pointsCard.textContent = userScore;
+            getQuestion();
+        }
+        else {
+            answerBanner.innerHTML = "Sorry!";
+            secondsLeft -= 5;
+            timerCard.textContent = secondsLeft;
+            getQuestion();
+        }
+    });
+    buttonB.addEventListener("click", function() {
+        if (q.answer === "B") {
+            userScore += 10;
+            answerBanner.innerHTML = "Correct!";
+            pointsCard.textContent = userScore;
+            getQuestion();
+        }
+        else {
+            answerBanner.innerHTML = "Sorry!";
+            secondsLeft -= 5;
+            timerCard.textContent = secondsLeft;
+            getQuestion();
+        }
+    });
+    buttonC.addEventListener("click", function() {
+        if (q.answer === "C") {
+            userScore += 10;
+            answerBanner.innerHTML = "Correct!";
+            pointsCard.textContent = userScore;
+            getQuestion();
+        }
+        else {
+            answerBanner.innerHTML = "Sorry!";
+            secondsLeft -= 5;
+            timerCard.textContent = secondsLeft;
+            getQuestion();
+        }
+    });
+    buttonD.addEventListener("click", function() {
+        if (q.answer === "D") {
+            userScore += 10;
+            answerBanner.innerHTML = "Correct!";
+            pointsCard.textContent = userScore;
+            getQuestion();
+        }
+        else {
+            answerBanner.innerHTML = "Sorry!";
+            secondsLeft -= 5;
+            timerCard.textContent = secondsLeft;
+            getQuestion();
+        }
+    });
 }
 
-function enterHighScore() {
-    // Once game is over, give user an input for initials and save object (initials, score) in localStorage
-    // Push onto the existing array and sort the array by score
+function endGame() {
+    window.alert('Game is over!');
+    // Once game is over, give user an input for initials
+    // save object (initials, score) in localStorage
+    // Push onto the existing array
+    // Sort the array by score
     // Format the array to sit in the main card
-    // Add a button + Event Listener to go back to the main game
+    // Add a button + Event Listener to go back to the main game (same as HS button)
     return;
 }
 
