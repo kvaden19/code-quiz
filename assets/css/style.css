@@ -15,7 +15,8 @@ h1 {
     font-size: 50px;
 }
   
-#buttonContainer {
+.buttonContainer {
+    clear: both;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -47,6 +48,7 @@ main {
     height: 400px;
     background: var(--primary);
     color: white;
+    margin-bottom: 30px;
 }
 
 #quizCard {
@@ -61,7 +63,10 @@ main {
     display: none;
 }
 
-/* TODO: Make me a little nicer. Dark background, flat colors, content padded in containers, rounded corners. */
+#highScoreView {
+    font-size: 16px;
+    background-color: var(--accent);
+}
 
 
 

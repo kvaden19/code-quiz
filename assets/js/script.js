@@ -1,6 +1,6 @@
 // Define the DOM variables
 var startButton = document.getElementById("startButton");
-var highScoresButton = 0;
+var highScoresButton = document.getElementById("highScoreView");
 
 var pointsCard = document.getElementById("pointsCard");
 var timerCard = document.getElementById("timerCard");
@@ -14,11 +14,13 @@ var answerButtons = Array.from(document.getElementsByClassName("answerButton"));
 var answerBanner = document.getElementById("answerBanner");
 
 var finalPoints = document.getElementById("finalPoints");
+var scoreForm = document.getElementById("scoreForm");
 var highScoreInput = document.getElementById("enterHighScore");
 var highScoreOL = document.getElementById("highScoreOL");
 
-// Define pre-existing high scores
-var highScoreArray = [];
+// Define the gameplay variables
+var userScore = 0;
+var secondsLeft = 60;
 
 class HighScore {
     constructor(initials, score) {
@@ -26,23 +28,26 @@ class HighScore {
         this.score = score;
         }
     }
-    
-var hs1 = new HighScore("KC", 100);
-var hs2 = new HighScore("SH", 40);
-var hs3 = new HighScore("BP", 10);
-var hs4 = new HighScore("BP", 0);
 
-highScoreArray.push(hs1);
-highScoreArray.push(hs2);
-highScoreArray.push(hs3);
-highScoreArray.push(hs4);
+function setupHighScores() { // Define pre-existing high scores
+    var highScoreArray = [];
 
-// Define the gameplay variables
-var userScore = 50;
-var secondsLeft = 60;
-var scoreForm = document.getElementById("scoreForm");
+    var hs1 = new HighScore("KC", 100);
+    var hs2 = new HighScore("SH", 40);
+    var hs3 = new HighScore("BP", 10);
+    var hs4 = new HighScore("KV", 60);
+    var hs5 = new HighScore("EV", 30);
 
-function setup() {
+    highScoreArray.push(hs1);
+    highScoreArray.push(hs2);
+    highScoreArray.push(hs3);
+    highScoreArray.push(hs4);
+    highScoreArray.push(hs5);
+
+    return highScoreArray;
+}
+
+function setupQuestions() {
     // Define a Question object constructor
     class Question {
     constructor(question, choice0, choice1, choice2, choice3, answer) {
@@ -59,15 +64,28 @@ function setup() {
     questionArray = [];
 
     // Define the questions, answer choices, and correct answers that will be used in the quiz
-    // TODO: Populate this with actual questions
-    var q1 = new Question("Here is the 1st question?", "A", "B", "C", "D", 1);
-    var q2 = new Question("Here is the 2nd question?", "1", "2", "3", "4", 2);
-    var q3 = new Question("Here is the 3rd question?", "red", "blue", "yellow", "green", 0);
+    var q1 = new Question("Math.random gives values between which two numbers?", "0, 100", "-1, 1", "0, 1", "Infinite", 2);
+    var q2 = new Question("What keyword is used to define a JavaScript variable?", "var", "variable", "x", "y", 0);
+    var q3 = new Question("How do you print a value to the console?", "print", "output", "log", "console.log", 3);
+    var q4 = new Question("What keywords create a loop in JavaScript?", "for", "while", "do...while", "all of the above", 3);
+    var q5 = new Question("What data type might you use to store a list?", "string", "array", "bigInt", "date", 1);
+    var q6 = new Question("What keyword is used to get out of a loop?", "stop", "break", "halt", "cease", 1);
+    var q7 = new Question("What does DOM stand for?", "Dormant Objective Month", "Document Objective Math", "Document Object Model", "Dominant Object Model", 2);
+    var q8 = new Question("Which is NOT a valid DOM event?", "click", "hover", "onchange", "display", 3);
+    var q9 = new Question("What type of data type is 'true'?", "string", "number", "array", "boolean", 3);
+    var q10 = new Question("What method is used to get the first element from an array?", "hop", "get", "pop", "put", 2);
 
     // Add each Question object to the array
     questionArray.push(q1);
     questionArray.push(q2);
     questionArray.push(q3);
+    questionArray.push(q4);
+    questionArray.push(q5);
+    questionArray.push(q6);
+    questionArray.push(q7);
+    questionArray.push(q8);
+    questionArray.push(q9);
+    questionArray.push(q10);
 
     // Sort Question array into a random order before passing to gamePlay function
     questionArray.sort(function(a, b){return 0.5 - Math.random()});
@@ -75,9 +93,11 @@ function setup() {
 }
 
 function getQuestion() {
+    answerBanner.innerHTML = "";
+
     // If all questions have been answered, trigger the end game
     if (questionArray.length === 0) {
-        endGame();
+        enterScore();
         return;
     }
 
@@ -89,33 +109,6 @@ function getQuestion() {
     answerOptions[1].textContent = q.choice1;
     answerOptions[2].textContent = q.choice2;
     answerOptions[3].textContent = q.choice3;
-    return q;
-}
-
-function gamePlay() {
-    // TODO: Hide / Disable HS and Start buttons
-    instructions.style.display = "none";
-
-    // Start a 60 second countdown timer
-    timerCard.textContent = secondsLeft;
-    var timerInterval = setInterval(function() {
-        secondsLeft--;
-        timerCard.textContent = secondsLeft;
-        if(secondsLeft === 0) {
-          clearInterval(timerInterval);
-        }
-      }, 1000);
-    if (secondsLeft <= 0) {
-        endGame();
-        return;
-    }
-
-    // Start userScore at zero
-    pointsCard.textContent = userScore;
-
-    // Get the array of questions
-    questionArray = setup();
-    q = getQuestion();
 
     // If correct button is clicked, add points and show "Correct!"; else take off 5 seconds and show "Sorry!"
     answerButtons.forEach((button, index) => {
@@ -124,21 +117,68 @@ function gamePlay() {
                 userScore += 10;
                 answerBanner.innerHTML = "Correct!";
                 pointsCard.textContent = userScore;
+                q = setTimeout(getQuestion, 1000);
             }
             else {
                 answerBanner.innerHTML = "Sorry!";
                 secondsLeft -= 5;
                 timerCard.textContent = secondsLeft;
-            }
-        q = getQuestion();
+                q = setTimeout(getQuestion, 1000);
+            }  
         });
     });
 }
 
-function endGame() {
-    // Once the game is over, remove timer and quiz content
+function gamePlay() {
+    // Set display elements
+    startButton.style.display = "none";
+    highScoresButton.style.display = "none";
+
+    instructions.style.display = "none";
+    displayHighScore.style.display = "none";
+    enterHighScore.style.display = "none";
+    quizCard.style.display = "block";
+
+    timerCard.style.display = "block";
+    pointsCard.style.diplay = "block";
+
+    var userScore = 0;
+    var secondsLeft = 60;
+
+    // Start a 60 second countdown timer
+    timerCard.textContent = secondsLeft;
+    var timerInterval = setInterval(function() {
+        secondsLeft--;
+        timerCard.textContent = secondsLeft;
+        if(secondsLeft <= 0) {
+          clearInterval(timerInterval);
+        }
+      }, 1000);
+    if (secondsLeft <= 0) {
+        enterScore();
+        return;
+    }
+
+    // Start userScore at zero
+    pointsCard.textContent = userScore;
+
+    // Get the array of questions
+    questionArray = setupQuestions();
+    q = getQuestion();
+}
+
+function enterScore() {
+    // Set display elements
+    startButton.style.display = "none";
+    highScoresButton.style.display = "none";
+
+    instructions.style.display = "none";
+    displayHighScore.style.display = "none";
+    enterHighScore.style.display = "block";
     quizCard.style.display = "none";
-    timerCard.textContent = "";
+
+    timerCard.style.display = "none";
+    pointsCard.style.diplay = "block";
 
     // Show the user their score and ask for their initials
     highScoreInput.style.display = "block";
@@ -148,28 +188,44 @@ function endGame() {
         event.preventDefault();
         var userInput = document.getElementById("user-input").value;
 
+        while (highScoreOL.hasChildNodes()) {  
+            highScoreOL.removeChild(highScoreOL.firstChild);
+        }
+
         var us1 = new HighScore(userInput, userScore);
         highScoreArray.push(us1);
-
-        highScoreArray.sort(function(a, b) {return b.score - a.score});
-
-        enterHighScore.style.display = "none";
-        displayHighScore.style.display = "block";
-        
-        for (i=0; i<5; i++) {
-            // append a child li to highScoreOL
-            var li = document.createElement("li");                        
-            li.innerHTML = highScoreArray[i].initials + '      ' + highScoreArray[i].score; 
-            highScoreOL.appendChild(li);                                           
-        }
+        displayScores();
       }
 
     scoreForm.addEventListener("submit", handleFormSubmit);
 
     // TODO: Save object (initials, score) in localStorage
-    // localStorage.setItem("savedHS", JSON.stringify(savedHS));
-
-    // TODO: Add a button + Event Listener to go back to the main game (same as HS button)
 }
 
-startButton.addEventListener("click", endGame); // testing
+function displayScores() {
+    // Set display elements
+    startButton.style.display = "block";
+    highScoresButton.style.display = "none";
+
+    instructions.style.display = "none";
+    displayHighScore.style.display = "block";
+    enterHighScore.style.display = "none";
+    quizCard.style.display = "none";
+
+    timerCard.style.display = "none";
+    pointsCard.style.diplay = "none";
+
+    highScoreArray.sort(function(a, b) {return b.score - a.score});
+    
+    for (i=0; i<5; i++) {
+        // append a child li to highScoreOL
+        var li = document.createElement("li");                        
+        li.innerHTML = highScoreArray[i].initials + '      ' + highScoreArray[i].score; 
+        highScoreOL.appendChild(li);                                           
+    }
+}
+
+highScoreArray = setupHighScores();
+
+startButton.addEventListener("click", gamePlay);
+highScoresButton.addEventListener("click", displayScores);
