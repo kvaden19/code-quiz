@@ -26,14 +26,22 @@
         </div>
         <div id="quizCard">
             <p id="question"></p>
-            <div><button id="A">A</button><span class="answerOption"></span></div>
-            <div><button id="B">B</button><span class="answerOption"></span></div>
-            <div><button id="C">C</button><span class="answerOption"></span></div>
-            <div><button id="D">D</button><span class="answerOption"></span></div>
+            <div><button class="answerButton">A</button><span class="answerOption"></span></div>
+            <div><button class="answerButton">B</button><span class="answerOption"></span></div>
+            <div><button class="answerButton">C</button><span class="answerOption"></span></div>
+            <div><button class="answerButton">D</button><span class="answerOption"></span></div>
             <p id="answerBanner"></p>
         </div>
-        <div id="enterHighScore"></div>
-        <div id="displayHighScore"></div>
+        <div id="enterHighScore">
+            <p>Nice job! You scored <span id="finalPoints"></span> points.</p>
+            <form id="scoreForm">
+                <label for="initials">Enter your initials:</label>
+                <input type="text" id="user-input" name="user-input">
+            </form>
+        </div>
+        <div id="displayHighScore">
+            <ol id="highScoreOL">High Scores</ol>
+        </div>
     </main>
     <aside>
         <h2 id="timerCard"></h2>

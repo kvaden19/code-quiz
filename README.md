@@ -1,10 +1,10 @@
 # code-quiz
 
-Estimate:
-* gamePlay()
-* high score table
-* content creation
-* Polish CSS
+tasks:
+Button tasks - add, style, nav to High Score and game
+Content
+Local storage
+CSS
 
 Original estimate: 10
 
@@ -14,4 +14,7 @@ HTML / CSS skeleton - 1.5
 JS - more pseudocode + setup function - 1.0
 JS - work on gamePlay function - 2.0
 Went into a black hole on loops - 2.0
+Refactoring, etc. - 1.5
+
+TOTAL: 8.5
 
